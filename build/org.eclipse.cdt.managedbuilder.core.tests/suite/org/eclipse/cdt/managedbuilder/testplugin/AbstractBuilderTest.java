@@ -229,6 +229,7 @@ public abstract class AbstractBuilderTest {
 			// Add subdir.mk in the same directory
 			if (externalBuilder) {
 				resources.add(buildDir.getFile(new Path(obj).removeLastSegments(1).append("subdir.mk")));
+				resources.add(buildDir.getFile(new Path(obj).removeLastSegments(1).append("subdir.rule.mk")));
 			}
 			// If the parent of the obj doesn't exist, then ensure we're expecting that too...
 			IPath p = new Path(obj).removeLastSegments(1);

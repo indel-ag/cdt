@@ -17,15 +17,7 @@ OBJS += \
 
 
 # Each subdirectory must supply rules for building sources it contributes
-%.o: ../%.c subdir.mk
-	@echo 'Building file: $<'
-	@echo 'Invoking: MBS30.compiler.gnu.c'
-	gcc -O0 -g3 -c -v -o "$@" "$<" && \
-	echo -n '$(@:%.o=%.d)' $(dir $@) > '$(@:%.o=%.d)' && \
-	gcc -MM -MG -P -w -O0 -g3 -c -v   "$<" >> '$(@:%.o=%.d)'
-	@echo 'Finished building: $<'
-	@echo ' '
-
+include subdir.rule.mk
 
 clean: clean--2e-
 

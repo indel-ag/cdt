@@ -14,13 +14,7 @@ OBJS += \
 
 
 # Each subdirectory must supply rules for building sources it contributes
-Functions/%.o: ../Functions/%.c Functions/subdir.mk
-	@echo 'Building file: $<'
-	@echo 'Invoking: GCC C Compiler'
-	gcc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" -o "$@" "$<"
-	@echo 'Finished building: $<'
-	@echo ' '
-
+include Functions/subdir.rule.mk
 
 clean: clean-Functions
 

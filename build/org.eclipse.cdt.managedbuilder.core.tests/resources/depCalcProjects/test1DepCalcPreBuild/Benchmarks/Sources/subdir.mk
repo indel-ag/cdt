@@ -20,18 +20,7 @@ OBJS += \
 
 
 # Each subdirectory must supply rules for building sources it contributes
-Sources/%.o: ../Sources/%.c Sources/subdir.mk
-	@echo 'Building file: $<'
-	@echo 'Invoking: GCC C Compiler'
-	gcc -I../Headers -I../Sources/sub\ sources -O0 -g3 -Wall -c -fmessage-length=0 -o "$@" "$<"
-	@echo 'Finished building: $<'
-	@echo ' '
-
-Sources/%.d: ../Sources/%.c Sources/subdir.mk
-	@echo 'Regenerating dependency file: $@'
-	gcc -w -MM -MP -MT"$@" -MT"$(@:%.d=%.o)" -I../Headers -I../Sources/sub\ sources -MF "$@" "$<"
-	@echo ' '
-
+include Sources/subdir.rule.mk
 
 clean: clean-Sources
 

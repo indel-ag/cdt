@@ -15,17 +15,7 @@ OBJS += \
 
 
 # Each subdirectory must supply rules for building sources it contributes
-%.obj: ../%.F90 subdir.mk
-	@echo 'Building file: $<'
-	@echo 'Invoking: Test Fortran Compiler'
-	myfort  -c -object:"$@" "$<"
-	@echo 'Finished building: $<'
-	@echo ' '
-
-MAIN.obj: AVE_CALCULATOR.mod ../MODULE.F90
-
-./AVE_CALCULATOR.mod: MODULE.obj
-
+include subdir.rule.mk
 
 clean: clean--2e-
 
