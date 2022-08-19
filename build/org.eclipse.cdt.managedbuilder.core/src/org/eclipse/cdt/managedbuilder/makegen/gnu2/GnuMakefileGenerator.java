@@ -393,6 +393,7 @@ public class GnuMakefileGenerator implements IManagedBuilderMakefileGenerator2 {
 	private IProject project;
 	private IResource[] projectResources;
 	private Vector<String> ruleList;
+	private List<StringBuffer> additionalRuleFiles;
 	private Vector<String> depLineList; //  String's of additional dependency lines
 	private Vector<String> depRuleList; //  String's of rules for generating dependency files
 	/** Collection of Containers which contribute source files to the build */
@@ -1019,6 +1020,7 @@ public class GnuMakefileGenerator implements IManagedBuilderMakefileGenerator2 {
 		IPath moduleOutputDir = createDirectory(moduleOutputPath.toString());
 
 		// Create a module makefile
+		additionalRuleFiles = new ArrayList<>();
 		IFile modMakefile = createFile(moduleOutputDir.append(MODFILE_NAME));
 		StringBuffer makeBuf = new StringBuffer();
 		makeBuf.append(addFragmentMakefileHeader());
@@ -1026,6 +1028,11 @@ public class GnuMakefileGenerator implements IManagedBuilderMakefileGenerator2 {
 
 		// Save the files
 		save(makeBuf, modMakefile);
+		for (int i = 0; i < additionalRuleFiles.size(); i += 2) {
+			modMakefile = createFile(moduleOutputDir.append(additionalRuleFiles.get(i).toString()));
+			save(additionalRuleFiles.get(i + 1), modMakefile);
+		}
+		additionalRuleFiles = null;
 	}
 
 	protected void populateSourcesMakefile(IFile fileHandle) throws CoreException {
@@ -2585,6 +2592,7 @@ public class GnuMakefileGenerator implements IManagedBuilderMakefileGenerator2 {
 
 		// Begin building the rule for this source file
 		String buildRule = EMPTY_STRING;
+		String ruleFile = null;
 
 		if (patternRule) {
 			if (ruleOutputs.size() == 0) {
@@ -2603,8 +2611,22 @@ public class GnuMakefileGenerator implements IManagedBuilderMakefileGenerator2 {
 					}
 				}
 			}
+			ruleFile = escapeWhitespaces(relativePath + MODFILE_NAME);
 		} else {
 			buildRule += primaryOutputName;
+
+			// Put file-specific rules into separate files so that their options can change without
+			// requiring all the files covered by the pattern rule to be rebuilt, and in the main
+			// subdir.mk include that file.
+			ruleFile = primaryOutputName + ".mk"; //$NON-NLS-1$
+			buffer.append("include ").append(ruleFile).append(NEWLINE); //$NON-NLS-1$
+			// this is the last component of primaryOutputName, but without escapeWhitespaces
+			StringBuffer ruleFileName = new StringBuffer(
+					(enumeratedPrimaryOutputs.size() > 0) ? enumeratedPrimaryOutputs.get(0).lastSegment()
+							: fileName + optDotExt).append(".mk"); //$NON-NLS-1$
+			additionalRuleFiles.add(ruleFileName);
+			buffer = new StringBuffer();
+			additionalRuleFiles.add(buffer);
 		}
 
 		String buildRuleDependencies = primaryDependencyName;
@@ -2630,7 +2652,7 @@ public class GnuMakefileGenerator implements IManagedBuilderMakefileGenerator2 {
 		}
 
 		buildRule += COLON + WHITESPACE + (patternRule ? patternBuildRuleDependencies : buildRuleDependencies)
-				+ WHITESPACE + escapeWhitespaces(relativePath + MODFILE_NAME);
+				+ WHITESPACE + ruleFile;
 
 		// No duplicates in a makefile.  If we already have this rule, don't add it or the commands to build the file
 		if (getRuleList().contains(buildRule)) {
@@ -2903,7 +2925,7 @@ public class GnuMakefileGenerator implements IManagedBuilderMakefileGenerator2 {
 					}
 				}
 				depLine += COLON + WHITESPACE + (patternRule ? patternBuildRuleDependencies : buildRuleDependencies)
-						+ WHITESPACE + escapeWhitespaces(relativePath + MODFILE_NAME);
+						+ WHITESPACE + ruleFile;
 				if (!getDepRuleList().contains(depLine)) {
 					getDepRuleList().add(depLine);
 					addedDepLines = true;

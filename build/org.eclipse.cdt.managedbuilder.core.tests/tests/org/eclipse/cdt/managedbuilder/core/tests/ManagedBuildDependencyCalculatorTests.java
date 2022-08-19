@@ -188,9 +188,11 @@ public class ManagedBuildDependencyCalculatorTests extends TestCase {
 				Path.fromOSString("subdir.mk"),
 				//  This file is different using Cygwin vs GCC
 				//Path.fromOSString("main.d"),
-				Path.fromOSString("Sources/subdir.mk"), Path.fromOSString("Sources/func1.d"),
-				Path.fromOSString("Sources/func2.d"), Path.fromOSString("Sources/func4.d"),
-				Path.fromOSString("Sources/sub sources/func 3.d"), Path.fromOSString("Sources/sub sources/subdir.mk") };
+				Path.fromOSString("Sources/subdir.mk"), Path.fromOSString("Sources/func2.o.mk"),
+				Path.fromOSString("Sources/func1.d"), Path.fromOSString("Sources/func2.d"),
+				Path.fromOSString("Sources/func4.d"), Path.fromOSString("Sources/sub sources/func 3.d"),
+				Path.fromOSString("Sources/sub sources/subdir.mk"),
+				Path.fromOSString("Sources/sub sources/func 3.o.mk") };
 		IProject[] projects = createProjects("test1DepCalc2", null, null, true);
 		buildProjects(projects, makefiles);
 	}
@@ -205,7 +207,8 @@ public class ManagedBuildDependencyCalculatorTests extends TestCase {
 				//Path.fromOSString("main.d"),
 				Path.fromOSString("Sources/subdir.mk"), Path.fromOSString("Sources/func1.d"),
 				Path.fromOSString("Sources/func2.d"), Path.fromOSString("Sources/func4.d"),
-				Path.fromOSString("Sources/sub sources/func 3.d"), Path.fromOSString("Sources/sub sources/subdir.mk") };
+				Path.fromOSString("Sources/sub sources/func 3.d"), Path.fromOSString("Sources/sub sources/subdir.mk"),
+				Path.fromOSString("Sources/sub sources/func 3.o.mk") };
 		IProject[] projects = createProjects("test1DepCalc3", null, null, true);
 		buildProjects(projects, makefiles);
 	}
@@ -215,12 +218,13 @@ public class ManagedBuildDependencyCalculatorTests extends TestCase {
 	 */
 	public void test1DepCalcPreBuild() {
 		IPath[] makefiles = { Path.fromOSString("makefile"), Path.fromOSString("sources.mk"),
-				Path.fromOSString("subdir.mk"),
+				Path.fromOSString("subdir.mk"), Path.fromOSString("main.o.mk"),
 				//  This file is different using Cygwin vs GCC
 				//Path.fromOSString("main.d"),
 				Path.fromOSString("Sources/subdir.mk"), Path.fromOSString("Sources/func1.d"),
 				Path.fromOSString("Sources/func2.d"), Path.fromOSString("Sources/func4.d"),
-				Path.fromOSString("Sources/sub sources/func 3.d"), Path.fromOSString("Sources/sub sources/subdir.mk") };
+				Path.fromOSString("Sources/sub sources/func 3.d"), Path.fromOSString("Sources/sub sources/subdir.mk"),
+				Path.fromOSString("Sources/sub sources/func 3.o.mk") };
 		IProject[] projects = createProjects("test1DepCalcPreBuild", null, null, true);
 		buildProjects(projects, makefiles);
 	}

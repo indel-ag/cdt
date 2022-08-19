@@ -311,7 +311,7 @@ public class ManagedProject30MakefileTests extends TestCase {
 				Path.fromOSString("subdir.mk"), Path.fromOSString("main.d"), Path.fromOSString("source1/subdir.mk"),
 				Path.fromOSString("source1/Class1.d"), Path.fromOSString("source2/subdir.mk"),
 				Path.fromOSString("source2/Class2.d"), Path.fromOSString("source2/source21/Class21.d"),
-				Path.fromOSString("source2/source21/subdir.mk") };
+				Path.fromOSString("source2/source21/Class21.o.mk"), Path.fromOSString("source2/source21/subdir.mk") };
 		IProject[] projects = createProjects("multiResConfig", null, null, true);
 		buildProjects(projects, makefiles);
 	}
@@ -468,7 +468,7 @@ public class ManagedProject30MakefileTests extends TestCase {
 	 */
 	public void testResourceCustomBuildStep() {
 		IPath[] makefiles = { Path.fromOSString("makefile"), Path.fromOSString("subdir.mk"),
-				Path.fromOSString("sources.mk") };
+				Path.fromOSString("rcbsBasicTest.o.mk"), Path.fromOSString("sources.mk") };
 		ITool rcbsTool;
 		IInputType rcbsToolInputType;
 		IAdditionalInput rcbsToolInputTypeAdditionalInput;
@@ -498,7 +498,7 @@ public class ManagedProject30MakefileTests extends TestCase {
 	 */
 	public void test30_1() {
 		IPath[] makefiles = { Path.fromOSString("makefile"), Path.fromOSString("sources.mk"),
-				Path.fromOSString("subdir.mk") };
+				Path.fromOSString("subdir.mk"), Path.fromOSString("f1.c.mk") };
 		IProject[] projects = createProjects("test30_1", null, null, true);
 		buildProjects(projects, makefiles);
 	}

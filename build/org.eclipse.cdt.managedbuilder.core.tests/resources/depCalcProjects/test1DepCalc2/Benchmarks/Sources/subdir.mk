@@ -27,13 +27,7 @@ Sources/%.o: ../Sources/%.c Sources/subdir.mk
 	@echo 'Finished building: $<'
 	@echo ' '
 
-Sources/func2.o: ../Sources/func2.c Sources/subdir.mk
-	@echo 'Building file: $<'
-	@echo 'Invoking: GCC C Compiler'
-	gcc -I../Headers -I../Sources/sub\ sources -O3 -g3 -Wall -c -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" -o "$@" "$<"
-	@echo 'Finished building: $<'
-	@echo ' '
-
+include Sources/func2.o.mk
 
 clean: clean-Sources
 

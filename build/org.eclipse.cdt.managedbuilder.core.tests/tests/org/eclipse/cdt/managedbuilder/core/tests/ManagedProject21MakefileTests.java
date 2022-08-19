@@ -270,7 +270,8 @@ public class ManagedProject21MakefileTests extends TestCase {
 	public void testMultiResConfig() {
 		IPath[] makefiles = { Path.fromOSString("makefile"), Path.fromOSString("sources.mk"),
 				Path.fromOSString("subdir.mk"), Path.fromOSString("source1/subdir.mk"),
-				Path.fromOSString("source2/subdir.mk"), Path.fromOSString("source2/source21/subdir.mk") };
+				Path.fromOSString("source2/subdir.mk"), Path.fromOSString("source2/source21/subdir.mk"),
+				Path.fromOSString("source2/source21/Class21.o.mk") };
 		IProject[] projects = createProjects("multiResConfig", null, null, true);
 		buildProjects("multiResConfig", projects, makefiles);
 	}

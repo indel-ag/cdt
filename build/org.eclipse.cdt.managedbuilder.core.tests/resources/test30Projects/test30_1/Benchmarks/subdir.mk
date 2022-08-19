@@ -28,17 +28,7 @@ TEST30_1_GNU_SO_TAR_OUTPUTC_OUTPUTS += \
 
 
 # Each subdirectory must supply rules for building sources it contributes
-f1.c: ../test.tar subdir.mk
-	@echo 'Building file: $<'
-	@echo 'Invoking: Un-tar'
-	tar -xf "$<"
-	@echo 'Finished building: $<'
-	@echo ' '
-
-f2.c: f1.c
-test_ar.h: f1.c
-CDT.bmp: f1.c
-
+include f1.c.mk
 %.oprestripped: ./%.c subdir.mk
 	@echo 'Building file: $<'
 	@echo 'Invoking: MBS30.compiler.gnu.c'
